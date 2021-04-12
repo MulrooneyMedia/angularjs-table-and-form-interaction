@@ -1,0 +1,81 @@
+/* Ceta Insurance technical test styling MM */
+body {
+	background-color: lightgray;
+	padding: 1em 0;
+	font-size: 13px;
+}
+h1, h2, h3 {
+	text-decoration: underline;
+}
+h1 {
+	text-align: center;
+	font-size: 2em;
+}
+form h2, form h3{
+	margin:0;
+}
+h2 {
+	font-size: 1.2em;
+}
+h3 {
+	font-size: 1.1em;
+}
+.formWrapper {
+}
+form {
+	margin: 0.25em 0 .5em 0;
+}
+.tableWrapper {
+	max-width: 1300px;
+	padding-left: .5em;
+}
+.userTable {
+	background-color: white;
+	margin: 0 0 1em 0;
+}
+.userTable th {
+	background-color: lightskyblue;
+	text-align: center;
+	padding: .5em .5em;
+}
+.userTable td {
+	padding: .5em .5em;
+}
+a {
+	text-decoration: underline;
+}
+p, li {
+	max-width: 40em;
+}
+form {
+	max-width: 300px;
+}
+fieldset {
+	background-color: lightskyblue;
+	width: 100%;
+	border: 1px dashed grey;
+	padding: .25em;
+	margin-bottom: 3px;
+}
+label {
+	min-width:8em;
+}
+.clear {
+	clear: both;
+}
+ol {
+	margin-left: 0;
+	padding: 0 0 0 1em;
+}
+fieldset#formht {
+	left: -9000px;
+	margin: 0;
+	overflow: hidden;
+	padding: 0;
+	position: absolute;
+	top: -9000px;
+}
+button, #submitInput {
+	margin: 0 0 .25em 0;
+}
+ 

@@ -1,0 +1,170 @@
+<!doctype html>
+<html ng-app="cetaTest" lang="en" class="ng-scope">
+<head>
+	<title>Ceta Insurance technical test by Mark Mulrooney</title>
+	<meta name="author" content="Mark Mulrooney" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self'; img-src 'self' http://www.mulrooney.co.uk/; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; font-src 'self' https://maxcdn.bootstrapcdn.com;" />
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/style.css">
+</head>
+<body ng-controller="pageController">
+<div class="container-fluid">
+  
+	<h1>Ceta Insurance - Technical Test coded by Mark Mulrooney</h1>
+
+	<div class="col-sm-3 formWrapper">
+		<a href="/"><img src="../../mul_images/icons/mm_home.png" title="Link to the home page" alt="Link to the home page"></a>
+		<p>Please enter your details into the form and submit.</p>
+
+		<!-- <button class="clear" ng-click="newIDNumber()">Create new ID number</button> -->
+		<form ng-submit="sendForm()" name="ceta_user_form" id="ceta_user_form">
+			<fieldset>
+				<label for="id">ID (automatically assigned):</label>
+				<input type="number" name="id" id="id" ng-model="newUser.id" ng-required="true" value="" min="1" max="99" readonly />
+
+				<br class="clear" />
+
+				<label for="name">Name:</label>
+				<input type="text" id="name" ng-model="newUser.name" ng-required="true" placeholder="Enter your name here" maxlength = "20" />
+
+				<label for="username">Username:</label>
+				<input type="text" id="username" ng-model="newUser.username" ng-required="true" placeholder="Enter your username here" maxlength = "20" />
+
+				<label for="email">Email:</label>
+				<input type="email" id="email" ng-model="newUser.email" placeholder="Enter your email here" maxlength = "20" />
+			</fieldset>
+
+			<fieldset id="address">
+				<h2>Address</h2>
+				<label for="street">Street:</label>
+				<input type="text" id="street" ng-model="newUser.address.street" ng-required="true" placeholder="Enter your street here" maxlength = "20" />
+				<label for="suite">Suite:</label>
+				<input type="text" id="suite" ng-model="newUser.address.suite" ng-required="true" placeholder="Enter your suite here" maxlength = "20" />
+				<label for="street">City:</label>
+				<input type="text" id="city" ng-model="newUser.address.city" ng-required="true" placeholder="Enter your city here" maxlength = "20" />
+				<label for="zipcode">Zipcode:</label>
+				<input type="text" id="zipcode" ng-model="newUser.address.zipcode" ng-required="true" placeholder="Enter your zipcode here" pattern="^\d{5}(?:[-\s]\d{4})?$" maxlength = "20" />
+				<h3>Geo</h3>
+				<label for="lat">Latitude:</label>
+				<input type="text" id="lat" ng-model="newUser.address.geo.lat" placeholder="Enter your latitude here" maxlength = "20" />
+				<label for="lng">Longitude:</label>
+				<input type="text" id="lng" ng-model="newUser.address.geo.lng" placeholder="Enter your longitude here" maxlength = "20" />
+			</fieldset>
+
+			<fieldset>
+				<label for="phone">Phone:</label>
+				<input type="tel" id="phone" ng-model="newUser.phone" ng-required="true" placeholder="Enter your phone here" maxlength = "20" />
+
+				<label for="website">Website:</label>
+				<input type="url" id="website" ng-model="newUser.website" placeholder="Enter your website here" maxlength = "20" />
+				</fieldset>
+				<fieldset id="company">
+				<h2>Company</h2>
+				<label for="companyName">Name:</label>
+				<input type="text" id="companyName" ng-model="newUser.company.name" placeholder="Enter your co. name here" maxlength = "20" />
+				<label for="catchPhrase">Catch phrase:</label>
+				<input type="text" id="catchPhrase" ng-model="newUser.company.catchPhrase" placeholder="Enter your co. catch phrase " maxlength = "20" />
+				<label for="bs">BS:</label>
+				<input type="text" id="bs" ng-model="newUser.company.bs" placeholder="Enter your co. bs here" maxlength = "20" />
+			</fieldset>
+			<fieldset id="formht">
+				<label for="comment">
+					<img alt="fill not this field in" src="images/htlabel.png">
+				</label>
+				<input type="text" value="" name="comment" id="comment" class="h0ney-p0t" aria-label="If you are a human, please do not fill in this field.">
+			</fieldset>
+			<input type="submit" id="submitInput" value="Submit - Updates the table and local storage"/>
+		</form>
+		<button ng-click="clearForm()"> Clear the form </button>
+		
+		<br />
+		<button ng-click="showLocalStorage()"> Show localStorage in console.log</button>
+		<br />
+		<button onclick="localStorage.clear();console.log('localStorage cleared')"> Clear localStorage </button>
+	</div>
+
+<div class="col-sm-9 tableWrapper" >
+	<table id="cetaUserTable" class="userTable"  border="1">
+		<caption>To edit an user entry, click on the relevant 'Edit' button</caption>
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>Name</th>
+				<th>Username</th>
+				<th>Email</th>
+				<th>Address</th>
+				<th>Phone</th>
+				<th>Website</th>
+				<th>Company</th>
+				<th> </th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="x in users">
+				<td>{{ x.id }}</td>
+				<td>{{ x.name }}</td>
+				<td>{{ x.username }}</td>
+				<td><a href="mailto:{{x.email}}">{{x.email}}</a></td>
+				<td>{{ x.address.street + ', ' + x.address.suite  + ', ' + x.address.city }}<br>{{ x.address.zipcode }}<br>{{'Latitude ' + x.address.geo.lat + ', Longitude  ' + x.address.geo.lng }}</td>
+				<td>{{ x.phone }}</td>
+				<td><a href="{{x.website}}" target="_blank">{{ x.website }}</a></td>
+				<td>Company: <strong>{{ x.company.name }}</strong><br><em>{{ x.company.catchPhrase }}</em><br><strong>{{x.company.bs}}</strong></td>
+				<td><button ng-click="editUserEntry(x)">Edit</button></td>
+			</tr>
+		</tbody>
+	</table>
+	</div>
+</div>
+<hr class="clear" />
+<div class="container-fluid">
+	<div class="col-sm-4" >
+		<h2>The Instructions Provided to Do this Test</h2>
+		<p>We would like you to perform a short technical exercise to demonstrate your technical and design ability. Could you please create an angular UI for the following JSON:</p>
+
+		<p><a href="https://jsonplaceholder.typicode.com/users" target="_blank">https://jsonplaceholder.typicode.com/users</a></p>
+
+		<p>What we are looking for is a form to create or edit existing users (and for this to update the JSON, which we are expecting you to store in the browser locally) and a way to display the user information from the JSON as a read only view such as a grid. Feel free to use any packages you see fit. As this is intended to be a short exercise, we don’t expect you to go overboard with the UI in terms of styling and animations etc, but it should look presentable and something you feel a corporate organisation would be happy to display to their customers. As this is a front-end role you will be assessed on the UI design, UX and the quality of the code.</p>
+	</div>
+	<div class="col-sm-4">
+		<h2>Assumptions Made</h2>
+		<ol>
+			<li>"grid" means a HTML table.</li>
+			<li>"store in the browser locally" means use localStorage.</li>
+			<li>I put in a restriction of maximum length set to a nominal 20 characters on the form fields.</li>
+			<li>All the form fields are of the input type. I could have made ones like the catch phrase a textarea to allow multiple lines, but did not for simplicity.</li>
+
+			<li>I applied a regular expression for the zip code.</li>
+			<li>I found that there seemed to be a contradiction in the instructions. "read only view" but you want to be able to edit and create users. I ignored the read only part.</li>
+			<li>I have guessed at which fields should be required.</li>
+			<li>I do not let the user fill in the ID field as I want that to be automatically assigned. If you use the edit button to fill in the form, your amended data is sent back to the original row. If you fill in the form from its blank stage and submit, a new row is added to the bottom of the table.</li>
+			<li>I have used Bootstrap as a basis for the CSS but such a large table will never fit easily on a mobile or tablet in portrait view.</li>
+		</ol>
+
+		<h2>Issues</h2>
+		<ol>
+			<li>The dummy user data appears to be for the USA only with its use of zipcodes. In a real world scenario, one would assume that another country could be selected with a possible accompanying post code. </li>
+			<li>The website URLs in the dummy data are missing their 'http' prefixes. I have added them into my JS data object so that they make legitimate URLs for the anchor tags.</li>
+			<li>I tried applying a regular expression for the telephone numbers but there was too much variety in the examples supplied.</li>
+			<li>Transferred 'https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css' to my local drive 'css/bootstrap.min.css' due to Firefox not implementing Content-Security-Policy in the same manner as Chrome.</li>
+		</ol>
+	</div>
+	<div class="col-sm-4" >
+		<h2>Cyber Security of this Webpage</h2>
+		<ol>
+			<li>I made a check on this page's security here <a href="https://securityheaders.com/?q=http%3A%2F%2Fwww.mulrooney.co.uk%2Fceta-insurance-test%2F&followRedirects=on" target="_blank">https://securityheaders.com/?q=http%3A%2F%2Fwww.mulrooney.co.uk%2Fceta-insurance-test%2F&followRedirects=on</a>. It got a rating of A.
+			</li>
+			<li>My portfolio website has a .htaccess file in its root plus there is another put in the root of this subfolder. In them I have coded the relevant restrictions.</li>
+			<li>I inserted a meta tag in the head with http-equiv="Content-Security-Policy" and the relevant restrictions.</li>
+			<li>I inserted a hidden field to defeat form filling by spambots</li>
+		</ol>
+	</div>
+</div>
+<script src="js/libs/angular1.8/angular.min.js"></script>
+<!-- <script src="js/libs/angular1.8/angular.js"></script> -->
+<script src="js/apps.js"></script>
+<script src="js/controllers.js"></script>
+<script src="js/directives.js"></script>
+</body>
+</html>
